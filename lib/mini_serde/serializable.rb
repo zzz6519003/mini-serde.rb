@@ -10,6 +10,10 @@ module MiniSerde
       Json.object(attrs)
     end
 
+    def to_json_string
+      to_json_value.to_string
+    end
+
     def self.included(base)
       base.extend(ClassMethods)
     end
@@ -23,6 +27,11 @@ module MiniSerde
           instance.instance_variable_set("@#{key}", ruby_value)
         end
         instance
+      end
+
+      def from_json_string(json_str)
+        json = Parser.parse(json_str)
+        from_json_value(json)
       end
     end
   end

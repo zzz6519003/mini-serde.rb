@@ -76,7 +76,7 @@ RSpec.describe MiniSerde do
 
     it 'serializes objects' do
       person = TestPerson.new("Alice", 30, ["dev", "ruby"])
-      json_str = MiniSerde.to_json_string(person)
+      json_str = person.to_json_string
       expect(json_str).to eq('{"age":30,"name":"Alice","tags":["dev","ruby"]}')
     end
 
@@ -86,6 +86,15 @@ RSpec.describe MiniSerde do
       expect(person.name).to eq("Bob")
       expect(person.age).to eq(25.0)
       expect(person.tags).to eq(["admin"])
+    end
+
+    it 'round-trips serialization and deserialization' do
+      person = TestPerson.new("Alice", 30, ["developer", "ruby"])
+      json_str = person.to_json_string
+      parsed_person = TestPerson.from_json_string(json_str)
+      expect(parsed_person.name).to eq("Alice")
+      expect(parsed_person.age).to eq(30.0)
+      expect(parsed_person.tags).to eq(["developer", "ruby"])
     end
   end
 end

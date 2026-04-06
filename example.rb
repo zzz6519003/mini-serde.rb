@@ -24,12 +24,11 @@ end
 
 puts "\n=== Custom Struct ==="
 person = Person.new("Alice", 30, ["developer", "ruby"])
-json_str = MiniSerde.to_json_string(person)
+json_str = person.to_json_string
 puts "Serialized: #{json_str}"
 
 # Deserialize
-parsed_json = MiniSerde::Parser.parse(json_str)
-parsed_person = Person.from_json_value(parsed_json)
+parsed_person = Person.from_json_string(json_str)
 puts "Deserialized name: #{parsed_person.name}"
 puts "Deserialized age: #{parsed_person.age}"
 puts "Deserialized tags: #{parsed_person.tags.inspect}"
